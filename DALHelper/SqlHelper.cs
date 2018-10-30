@@ -18,6 +18,10 @@ namespace DALHelper
 	/// </summary>
     public sealed class SqlHelper
     {
+        //数据库连接字符串（数据库地址、数据库名、数据库用户名、数据库密码）
+        private static string ConnString = "Host=localhost;Database=school;Port=3306;UserId=root;Password=12345678";
+
+
         #region 私有方法、构造器
 
         // SqlHelper只提供静态方法，防止生成实例
