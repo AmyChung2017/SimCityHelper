@@ -11,8 +11,79 @@ using BIL;
 
 namespace SimCityHelper
 {
+    public enum Title
+    {
+        King,
+        Sir
+    };
+
+
     public partial class Form1 : Form
     {
+        private class Knight
+        {
+            //private string hisName;
+            private bool good;
+            private Title hisTitle;
+
+            public Knight(Title title, string name, bool good)
+            {
+                hisTitle = title;
+                this.Name = name;
+                //hisName = name;
+                this.good = good;
+            }
+
+            public Knight()
+            {
+                hisTitle = Title.Sir;
+                //hisName = "<enter name>";
+                this.Name = "<enter name>";
+                good = true;
+            }
+
+            public string Name { get; set; }
+
+            /*
+            public string Name
+            {
+                get
+                {
+                    return hisName;
+                }
+
+                set
+                {
+                    hisName = value;
+                }
+            }*/
+
+            public bool GoodGuy
+            {
+                get
+                {
+                    return good;
+                }
+                set
+                {
+                    good = value;
+                }
+            }
+
+            public Title Title
+            {
+                get
+                {
+                    return hisTitle;
+                }
+                set
+                {
+                    hisTitle = value;
+                }
+            }
+        }
+
+
         private TestBIL bil = new TestBIL();
         public Form1()
         {
@@ -70,11 +141,47 @@ namespace SimCityHelper
 
         private void PopulateDataGridView()
         {
+            //this.dataGridView1.AutoGenerateColumns = true;
             //填充数据
-            bindingSource1.DataSource = bil.GetDataFromDatabase();
+            //bindingSource1.DataSource = bil.GetDataFromDatabase();
+
             
+
+            // Populate the data source.
+            bindingSource1.Add(new Knight(Title.King, "Uther", true));
+            bindingSource1.Add(new Knight(Title.King, "Arthur", true));
+            bindingSource1.Add(new Knight(Title.Sir, "Mordred", false));
+            bindingSource1.Add(new Knight(Title.Sir, "Gawain", true));
+            bindingSource1.Add(new Knight(Title.Sir, "Galahad", true));
+
+            // Initialize the DataGridView.
+            //dataGridView1.AutoGenerateColumns = false;
+            //dataGridView1.AutoSize = true;
+            dataGridView1.DataSource = bindingSource1;
+
+            DataGridViewComboBoxColumn combo = new DataGridViewComboBoxColumn();
+            combo.DataSource = Enum.GetValues(typeof(Title));
+            combo.DataPropertyName = "Title";
+            combo.Name = "Title";
+            dataGridView1.Columns.Add(combo);
+
+           // Initialize and add a text box column.
+           DataGridViewColumn column = new DataGridViewTextBoxColumn();
+            column.DataPropertyName = "Name";
+            column.Name = "Knight";
+            dataGridView1.Columns.Add(column);
+
+            // Initialize and add a check box column.
+            column = new DataGridViewCheckBoxColumn();
+            column.DataPropertyName = "GoodGuy";
+            column.Name = "Good";
+            dataGridView1.Columns.Add(column);
+
+            // Add the button column to the control.
+            //dataGridView1.Columns.Insert(dataGridView1.Columns.Count, buttonColumn);
+
             //自动调整列宽
-            dataGridView1.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader);
+            //dataGridView1.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader);
 
         }
 
